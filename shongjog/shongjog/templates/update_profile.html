@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Update Profile - shongjog</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <link href="/static/assets/img/favicon.png" rel="icon" />
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <style>
+      body {
+          background-color: #f0f2f5;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+      }
+      .form-container {
+          background-color: white;
+          padding: 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          margin-top: 20vh;
+          margin-bottom: 5vh;
+      }
+      h2 {
+          text-align: center;
+          margin-bottom: 20px;
+          color: #333;
+      }
+      .form-control {
+          margin-bottom: 15px;
+          width: 100%;
+      }
+      .form-control input, .form-control select {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+      }
+      .btn-primary {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 50%;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          height: 35px;
+      }
+      .btn-primary:hover {
+          background-color: #0056b3;
+      }
+      .form-footer {
+          text-align: center;
+          margin-top: 50px;
+      }
+      .form-footer a {
+          color: #007bff;
+          text-decoration: none;
+      }
+      .form-footer a:hover {
+          text-decoration: underline;
+      } 
+      .flex-row{
+        display: flex;
+      }
+  </style>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="/static/assets/vendor/bootstrap/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet" />
+    <link
+      href="/static/assets/vendor/glightbox/css/glightbox.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="/static/assets/vendor/swiper/swiper-bundle.min.css"
+      rel="stylesheet"
+    />
+    
+
+    <link href="/static/assets/css/main.css" rel="stylesheet" />
+  </head>
+  <body class="index-page"></body>
+    <header id="header" class="header fixed-top">
+      <div class="topbar d-flex align-items-center">
+        <div
+          class="container d-flex justify-content-center justify-content-md-between"
+        >
+          <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-envelope d-flex align-items-center"
+              ><a href="mailto:contact@example.com">{{ info_home.gmail }}</a></i
+            >
+            <i class="bi bi-phone d-flex align-items-center ms-4"
+              ><span>{{ info_home.contact_number }}</span></i
+            >
+          </div>
+          <div class="social-links d-none d-md-flex align-items-center">
+            <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="branding d-flex align-items-cente">
+        <div
+          class="container position-relative d-flex align-items-center justify-content-between"
+        >
+          <a href="/" class="logo d-flex align-items-center">
+            <h1 class="sitename">
+              <img src="/static/assets/img/logo.png" alt="" />
+            </h1>
+          </a>
+
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li>
+                <a href="/">Home<br/></a>
+              </li>
+              <li><a href="/all_services/">All Services</a></li>
+              {% if user.is_authenticated %}
+                <li><a href="/profile/" >Your Profile</a></li>
+              {% else %}
+                <li><a href="{% url 'login' %}">Log In</a></li>
+              {% endif %}
+              
+              <li><a href="{% url 'update_profile' %}" class="active">Update Profile</a></li>
+              <li><a href="{% url 'logout' %}?next=/" >Logout</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+
+        <div class="form-container container mb-5">
+                    <h2>Update profile</h2>
+                  <form method="POST" enctype="multipart/form-data" style = "height : 200px;">
+                        {% csrf_token %}
+            
+                        <div class="flex-row">
+                            <div class="form-control">
+                                {{ form.phone_number.label_tag }}
+                                {{ form.phone_number }}
+                            </div>
+                            <div class="form-control">
+                              {{ form.status.label_tag }}
+                              {{ form.status }}
+                          </div>
+                          <div class="form-control">
+                              {{ form.area.label_tag }}
+                              {{ form.area }}
+                           </div>
+                        </div>
+            
+                
+           
+                        <div class="form-control ckbox" >
+                             {{ form.picture.label_tag }}
+                             {{ form.picture }}
+                         </div>
+                    <button class="btn-primary mb-3" type="submit">Save</button>
+                </form>
+            </div>
+      
+    </main>
+
+    <footer id="footer" class="footer accent-background">
+      <div class="container footer-top">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-about">
+            <a href="/" class="logo d-flex align-items-center">
+              <span class="sitename">shongjog</span>
+            </a>
+            <p>
+              {{ info_home.footer_description }}
+            </p>
+            <div class="social-links d-flex mt-4">
+              <a href=""><i class="bi bi-twitter-x"></i></a>
+              <a href=""><i class="bi bi-facebook"></i></a>
+              <a href=""><i class="bi bi-instagram"></i></a>
+              <a href=""><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <<li><a href="/">Home</a></li>
+              <li><a href="#about">About us</a></li>
+              <li><a href="#all_services">All Services</a></li>
+              <li><a href="/">Terms of use</a></li>
+              <li><a href="/">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Our Services</h4>
+            {% for item in search_todo|slice:":5" %}
+            <ul>
+              <li style = "padding-bottom: 20px;"><a href="/all_services/?text={{ item.service_name }}#{{ item.service_name }}/">{{ item.service_name }}</a></li>
+            </ul>
+            {% endfor %}
+          </div>
+
+          <div
+            class="col-lg-3 col-md-12 footer-contact text-center text-md-start"
+          >
+            <h4>Contact Us</h4>
+            <p>{{ info_home.address }}</p>
+            <p class="mt-1">
+              <strong>Phone:</strong> <span>{{ info_home.contact_number }}</span>
+            </p>
+            <p><strong>Email:</strong> <span>{{ info_home.gmail }}</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container copyright text-center mt-4">
+        <p>
+          © <span>Copyright</span>
+          <strong class="px-1 sitename">{{ info_home.copyright }}</strong>
+          <span>All Rights Reserved</span>
+        </p>
+        <div class="credits">Designed by <a href="">{{ info_home.design }}</a></div>
+      </div>
+    </footer>
+
+    <a
+      href="#"
+      id="scroll-top"
+      class="scroll-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <div id="preloader"></div>
+
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/vendor/aos/aos.js"></script>
+    <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <script src="/static/assets/js/main.js"></script>
+  </body>
+</html>
